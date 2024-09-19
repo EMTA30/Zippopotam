@@ -1,0 +1,33 @@
+import requests
+
+def get_location_info(postal_code, country_code):
+    # Define la URL de la API de Zippopotam.us
+    url = f"https://api.zippopotam.us/{country_code}/{postal_code}"
+
+    # Realiza la solicitud a la API
+    response = requests.get(url)
+
+    # Verifica si la solicitud fue exitosa
+    if response.status_code == 200:
+        # Convierte la respuesta a formato JSON
+        data = response.json()
+
+        # Extrae la información relevante
+        place_name = data.get('place name', 'No disponible')
+        state = data.get('state', 'No disponible')
+        country = data.get('country', 'No disponible')
+        state_abbreviation = data.get('state abbreviation', 'No disponible')
+
+        # Muestra la información
+        print(f"Código Postal: {postal_code}")
+        print(f"Nombre del lugar: {place_name}")
+        print(f"Estado: {state}")
+        print(f"Abreviación del estado: {state_abbreviation}")
+        print(f"País: {country}")
+    else:
+        print(f"No se pudo obtener la información para el código postal: {postal_code}")
+
+# Ejemplo de uso
+postal_code = input("Ingrese el código postal: ")
+country_code = input("Ingrese el código del país (por ejemplo, 'us' para Estados Unidos): ")
+get_location_info(postal_code, country_code)
